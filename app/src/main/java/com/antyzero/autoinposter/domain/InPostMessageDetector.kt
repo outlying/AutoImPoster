@@ -9,7 +9,11 @@ class InPostMessageDetector(
      * Analise content of message and try to tell if given message is InPost message
      */
     fun isInPostMessage(message: Message): Boolean {
-        return false
+
+        val weightWords = containKeywords(message.text).times(0.95f)
+        val weightNumber = isNumberValid(message.phoneNumber).times(1f)
+
+        return (weightWords + weightNumber).div(2) >= 0.8f
     }
 
     /**

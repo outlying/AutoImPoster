@@ -13,6 +13,7 @@ class InPostMessageDetectorTest {
     private val inPostMessageDetector = InPostMessageDetector()
 
     init {
+        @Suppress("UNUSED_VARIABLE")
         val result = TestData.validMessages
                 .map { it.second.toLowerCase() }
                 .map { it.split(" ") }
