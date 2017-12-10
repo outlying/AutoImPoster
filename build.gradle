@@ -4,10 +4,21 @@ buildscript {
 
     ext {
 
+        general = [
+                versionCode: 1,
+                versionName: "0.0.1"
+        ]
+
+        androidSdk = [
+                compileSdkVersion: 26,
+                minSdkVersion    : 21,
+                targetSdkVersion : 26
+        ]
+
         libVersion = [
                 android      : [
                         support: [
-                                appCompat : '27.0.1',
+                                appCompat : "${androidSdk.targetSdkVersion}.0.1",
                                 constraint: '1.0.2'
                         ],
                         gradle : '3.0.1'
@@ -21,7 +32,7 @@ buildscript {
                         dagger: '2.13',
                         gson  : '2.8.2'
                 ],
-                kotlin       : '1.1.51',
+                kotlin       : '1.2.0',
                 playPublisher: '1.2.0',
                 rx           : [
                         android: '2.0.1',
@@ -64,8 +75,11 @@ buildscript {
         classpath "com.android.tools.build:gradle:${libVersion.android.gradle}"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${libVersion.kotlin}"
         classpath "de.mannodermaus.gradle.plugins:android-junit5:${libVersion.test.junit5.androidPlugin}"
+        classpath "com.github.ben-manes:gradle-versions-plugin:${libVersion.versionPlugin}"
     }
 }
+
+apply plugin: 'com.github.ben-manes.versions'
 
 allprojects {
     repositories {

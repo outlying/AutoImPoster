@@ -1,9 +1,9 @@
-package com.antyzero.autoinposter
+package com.antyzero.autoinposter.domain
 
 class InPostMessageDetector(
-        private val linkExtractor: LinkExtractor = LinkExtractor.Default) {
+        private val linkExtractor: LinkExtractor = LinkExtractor) {
 
-    private val keywords = arrayOf("paczkomat", "bedzie", "konca", "dnia", "kliknij")
+    private val keywords = arrayOf("paczkomat", "bedzie", "konca")
 
     /**
      * Analise content of message and try to tell if given message is InPost message
@@ -28,7 +28,7 @@ class InPostMessageDetector(
     /**
      * Checks number of sender
      */
-    internal fun isNumberValid(number: String) = number == "InPost"
+    internal fun isNumberValid(number: String) = if (number == "InPost") 1f else 0f
 
     /**
      * Detection parameter

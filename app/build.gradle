@@ -4,13 +4,15 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'de.mannodermaus.android-junit5'
 
 android {
-    compileSdkVersion 26
+
+    compileSdkVersion androidSdk.compileSdkVersion
+
     defaultConfig {
         applicationId "com.antyzero.autoinposter"
-        minSdkVersion 21
-        targetSdkVersion 26
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion androidSdk.minSdkVersion
+        targetSdkVersion androidSdk.targetSdkVersion
+        versionCode general.versionCode
+        versionName general.versionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
@@ -25,8 +27,8 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:${libVersion.kotlin}"
-    implementation 'com.android.support:appcompat-v7:26.1.0'
-    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation "com.android.support:appcompat-v7:${libVersion.android.support.appCompat}"
+    implementation "com.android.support.constraint:constraint-layout:${libVersion.android.support.constraint}"
 
     testCompileOnly junit5EmbeddedRuntime()
     testImplementation junit5()
