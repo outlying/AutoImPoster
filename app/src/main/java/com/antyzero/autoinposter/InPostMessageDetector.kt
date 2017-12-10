@@ -1,6 +1,7 @@
 package com.antyzero.autoinposter
 
-object InPostMessageDetector {
+class InPostMessageDetector(
+        private val linkExtractor: LinkExtractor = LinkExtractor.Default) {
 
     private val keywords = arrayOf("paczkomat", "bedzie", "konca", "dnia", "kliknij")
 
@@ -22,16 +23,6 @@ object InPostMessageDetector {
                 .sum().toFloat()
 
         return matchedKeywords.div(keywords.size)
-    }
-
-    /**
-     * Looks for activation link
-     */
-    internal fun hasActivationLink(text: String): Float {
-
-
-
-        return 0f
     }
 
     /**

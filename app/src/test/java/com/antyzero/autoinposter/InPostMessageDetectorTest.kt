@@ -9,16 +9,9 @@ import org.junit.jupiter.api.TestFactory
 
 class InPostMessageDetectorTest {
 
-    private val testMessagesFiles = arrayOf(
-            "/message_variant_01.txt",
-            "/message_variant_02.txt",
-            "/message_variant_03.txt")
-
-    private val testMessages = testMessagesFiles.map { it to resourceText(it) }
-
     @TestFactory
     internal fun areAllKeywordAreFound(): Iterator<DynamicTest> {
-        return testMessages.map {
+        return TestData.validMessages.map {
             dynamicTest("Testing message ${it.first}") {
                 assertThat(InPostMessageDetector.containKeywords(it.second)).isEqualTo(1f)
             }
