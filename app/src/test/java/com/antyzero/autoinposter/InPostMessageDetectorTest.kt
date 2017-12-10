@@ -11,7 +11,8 @@ class InPostMessageDetectorTest {
 
     private val testMessagesFiles = arrayOf(
             "/message_variant_01.txt",
-            "/message_variant_02.txt")
+            "/message_variant_02.txt",
+            "/message_variant_03.txt")
 
     private val testMessages = testMessagesFiles.map { it to resourceText(it) }
 
