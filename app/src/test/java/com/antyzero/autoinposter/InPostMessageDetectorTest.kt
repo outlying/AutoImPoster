@@ -33,6 +33,17 @@ class InPostMessageDetectorTest {
     }
 
     @Test
+    internal fun checkWholeMessage() {
+        val message = InPostMessageDetector.Message(
+                "InPost",
+                resourceText("/message_variant_01.txt"))
+
+        val result = inPostMessageDetector.isInPostMessage(message)
+
+        assertThat(result).isTrue()
+    }
+
+    @Test
     internal fun checkValidNumber() {
         val validNumber = "InPost"
         assertThat(inPostMessageDetector.isNumberValid(validNumber)).isEqualTo(1f)

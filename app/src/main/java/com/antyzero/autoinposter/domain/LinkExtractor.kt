@@ -6,7 +6,7 @@ interface LinkExtractor {
 
     fun linkId(message: String): String?
 
-    companion object Default : LinkExtractor {
+    companion object : LinkExtractor {
 
         private val LINK_REGEXP = "https://kurier\\.inpost\\.pl/rp\\.aspx\\?t=([\\w\\d]+)".toRegex()
 

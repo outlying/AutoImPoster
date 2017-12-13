@@ -9,7 +9,7 @@ import org.junit.jupiter.api.TestFactory
 
 class LinkExtractorTest {
 
-    private val linkExtractor: LinkExtractor = LinkExtractor.Default
+    private val linkExtractor: LinkExtractor = LinkExtractor
 
     @TestFactory
     internal fun findLink(): Iterator<DynamicTest> {

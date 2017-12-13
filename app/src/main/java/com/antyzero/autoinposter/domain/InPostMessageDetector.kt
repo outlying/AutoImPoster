@@ -8,12 +8,24 @@ class InPostMessageDetector(
     /**
      * Analise content of message and try to tell if given message is InPost message
      */
-    fun isInPostMessage(message: Message): Boolean {
+    fun isInPostMessage(message: Message, accuracy: Float = DEFAULT_ACCURACY): Boolean {
 
-        val weightWords = containKeywords(message.text).times(0.95f)
-        val weightNumber = isNumberValid(message.phoneNumber).times(1f)
+        assert(accuracy in 0f..1f) {
+            "Accuracy value has to be in range of [0,1]"
+        }
 
-        return (weightWords + weightNumber).div(2) >= 0.8f
+        val activationLinkValue = if (linkExtractor.hasActivationLink(message.text)) 1f else 0f
+
+        val input = arrayOf(
+                0.1f to containKeywords(message.text),
+                1.0f to isNumberValid(message.phoneNumber),
+                1.0f to activationLinkValue)
+
+        val top = input.map { it.first * it.second }.sum()
+        val bottom = input.map { it.first }.sum()
+        val result = top / bottom
+
+        return result >= accuracy
     }
 
     /**
@@ -40,4 +52,9 @@ class InPostMessageDetector(
     data class Message(
             val phoneNumber: String,
             val text: String)
+
+    companion object {
+
+        private const val DEFAULT_ACCURACY = 0.8f
+    }
 }
