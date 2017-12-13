@@ -17,9 +17,9 @@ class InPostMessageDetector(
         val activationLinkValue = if (linkExtractor.hasActivationLink(message.text)) 1f else 0f
 
         val input = arrayOf(
-                0.1f to containKeywords(message.text),
-                1.0f to isNumberValid(message.phoneNumber),
-                1.0f to activationLinkValue)
+                2f to containKeywords(message.text),
+                4f to isNumberValid(message.phoneNumber),
+                4f to activationLinkValue)
 
         val top = input.map { it.first * it.second }.sum()
         val bottom = input.map { it.first }.sum()
