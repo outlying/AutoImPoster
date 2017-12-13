@@ -45,7 +45,7 @@ class SmsReceiver : BroadcastReceiver() {
                         val linkId = linkExtractor.linkId(inPostMessage.text)
                         if (linkId != null) {
                             inPostCalls.keepOriginalDestination(linkId)
-                                    .subscribeOn(Schedulers.newThread())
+                                    .subscribeOn(Schedulers.io())
                                     .observeOn(AndroidSchedulers.mainThread())
                                     .subscribe({
                                         val response = it.body()!!.string()
