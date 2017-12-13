@@ -13,7 +13,8 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideOkHttpClient(): OkHttpClient = OkHttpClient()
+    fun provideOkHttpClient(): OkHttpClient = OkHttpClient.Builder()
+            .build()
 
     @Provides
     @Singleton
