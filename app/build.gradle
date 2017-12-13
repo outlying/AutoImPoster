@@ -29,6 +29,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:${libVersion.kotlin}"
     implementation "com.android.support:appcompat-v7:${libVersion.android.support.appCompat}"
     implementation "com.android.support.constraint:constraint-layout:${libVersion.android.support.constraint}"
+    implementation "com.squareup.okhttp3:okhttp:${libVersion.squareup.okhttp3}"
 
     //Dagger 2 dependencies
     implementation "com.google.dagger:dagger:${libVersion.google.dagger}"

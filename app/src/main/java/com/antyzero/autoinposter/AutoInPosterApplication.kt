@@ -5,7 +5,7 @@ import android.app.Application
 
 class AutoInPosterApplication : Application() {
 
-    override fun onCreate() {
-        super.onCreate()
+    val applicationComponent:ApplicationComponent by lazy {
+        Any() as ApplicationComponent
     }
 }
