@@ -45,12 +45,14 @@ class SmsReceiver : BroadcastReceiver() {
                         val linkId = linkExtractor.linkId(inPostMessage.text)
                         if (linkId != null) {
                             inPostCalls.keepOriginalDestination(linkId)
-                                    .subscribeOn(Schedulers.io())
+                                    .subscribeOn(Schedulers.newThread())
                                     .observeOn(AndroidSchedulers.mainThread())
                                     .subscribe({
-
+                                        val response = it.body()!!.string()
+                                        println(response)
                                     }, {
-
+                                        println(it)
+                                        // TODO log error
                                     })
                         }
                         // But what if there is no link
