@@ -1,7 +1,8 @@
 package com.antyzero.autoinposter.domain
 
 class InPostMessageDetector(
-        private val linkExtractor: LinkExtractor = LinkExtractor) {
+        private val linkExtractor: LinkExtractor = LinkExtractor,
+        private val phoneNumberMatcher: (String) -> Boolean = DEFAULT_NUMBER_MATCHER) {
 
     private val keywords = arrayOf("paczkomat", "bedzie", "konca")
 
@@ -44,7 +45,7 @@ class InPostMessageDetector(
     /**
      * Checks number of sender
      */
-    internal fun isNumberValid(number: String) = if (number == "InPost") 1f else 0f
+    internal fun isNumberValid(number: String) = if (phoneNumberMatcher.invoke(number)) 1f else 0f
 
     /**
      * Detection parameter
@@ -56,5 +57,7 @@ class InPostMessageDetector(
     companion object {
 
         private const val DEFAULT_ACCURACY = 0.8f
+
+        private val DEFAULT_NUMBER_MATCHER: (String) -> Boolean = { it == "InPost" }
     }
 }

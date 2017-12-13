@@ -9,6 +9,9 @@ import android.telephony.SmsMessage
 import com.antyzero.autoinposter.domain.InPostMessageDetector
 import com.antyzero.autoinposter.domain.LinkExtractor
 import com.antyzero.autoinposter.dsl.applicationComponent
+import com.antyzero.autoinposter.network.InPostCalls
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 
@@ -18,6 +21,8 @@ class SmsReceiver : BroadcastReceiver() {
     lateinit var linkExtractor: LinkExtractor
     @Inject
     lateinit var inPostMessageDetector: InPostMessageDetector
+    @Inject
+    lateinit var inPostCalls: InPostCalls
 
     override fun onReceive(context: Context, intent: Intent) {
 
@@ -39,8 +44,16 @@ class SmsReceiver : BroadcastReceiver() {
                     if (inPostMessageDetector.isInPostMessage(inPostMessage)) {
                         val linkId = linkExtractor.linkId(inPostMessage.text)
                         if (linkId != null) {
-                            // Web call
+                            inPostCalls.keepOriginalDestination(linkId)
+                                    .subscribeOn(Schedulers.io())
+                                    .observeOn(AndroidSchedulers.mainThread())
+                                    .subscribe({
+
+                                    }, {
+
+                                    })
                         }
+                        // But what if there is no link
                     }
                 }
             }
