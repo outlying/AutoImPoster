@@ -32,11 +32,11 @@ buildscript {
                         dagger: '2.13',
                         gson  : '2.8.2'
                 ],
-                kotlin       : '1.2.0',
+                kotlin       : '1.2.10',
                 playPublisher: '1.2.0',
                 rx           : [
                         android: '2.0.1',
-                        java   : '2.1.6',
+                        java   : '2.1.7',
                         kotlin : '2.0.0-RC1'
                 ],
                 squareup     : [

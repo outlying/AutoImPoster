@@ -7,12 +7,21 @@ import android.os.Build
 import android.os.Bundle
 import android.telephony.SmsMessage
 import com.antyzero.autoinposter.domain.InPostMessageDetector
-import com.antyzero.autoinposter.dsl.showToast
+import com.antyzero.autoinposter.domain.LinkExtractor
+import com.antyzero.autoinposter.dsl.applicationComponent
+import javax.inject.Inject
 
 
 class SmsReceiver : BroadcastReceiver() {
 
+    @Inject
+    lateinit var linkExtractor: LinkExtractor
+    @Inject
+    lateinit var inPostMessageDetector: InPostMessageDetector
+
     override fun onReceive(context: Context, intent: Intent) {
+
+        context.applicationComponent.inject(this)
 
         val bundle = intent.extras
         try {
@@ -26,8 +35,12 @@ class SmsReceiver : BroadcastReceiver() {
                     val message = smsMessage.displayMessageBody
                     val inPostMessage = InPostMessageDetector.Message(phoneNumber, message)
 
-                    if (InPostMessageDetector().isInPostMessage(inPostMessage)) {
-                        context.showToast("Got InPost message")
+                    // TODO what if message is going to be changed
+                    if (inPostMessageDetector.isInPostMessage(inPostMessage)) {
+                        val linkId = linkExtractor.linkId(inPostMessage.text)
+                        if (linkId != null) {
+                            // Web call
+                        }
                     }
                 }
             }
