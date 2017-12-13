@@ -12,13 +12,13 @@ buildscript {
         androidSdk = [
                 compileSdkVersion: 26,
                 minSdkVersion    : 21,
-                targetSdkVersion : 26
+                targetSdkVersion : 27
         ]
 
         libVersion = [
                 android      : [
                         support: [
-                                appCompat : "${androidSdk.targetSdkVersion}.0.1",
+                                appCompat : "${androidSdk.targetSdkVersion}.0.2",
                                 constraint: '1.0.2'
                         ],
                         gradle : '3.0.1'
@@ -54,12 +54,12 @@ buildscript {
                         ],
                         junit   : '4.12',
                         junit5  : [
-                                androidPlugin: '1.0.12',
+                                androidPlugin: '1.0.22',
                                 gradle       : '1.0.2',
                                 main         : '5.0.2'
                         ],
                         kluent  : '1.30',
-                        truth   : '0.36'
+                        truth   : '0.37'
                 ],
                 threeten     : '1.3.6',
                 versionPlugin: '0.17.0'
@@ -90,4 +90,17 @@ allprojects {
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+dependencyUpdates.resolutionStrategy = {
+    componentSelection { rules ->
+        rules.all { ComponentSelection selection ->
+            boolean rejected = ['alpha', 'beta', 'cr', 'm'].any { qualifier ->
+                selection.candidate.version ==~ /(?i).*[.-]${qualifier}[.\d-]*/
+            }
+            if (rejected) {
+                selection.reject('Release candidate')
+            }
+        }
+    }
 }
