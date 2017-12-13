@@ -3,10 +3,14 @@ package com.antyzero.autoinposter
 
 object TestData {
 
-    internal val validMessagesFiles = arrayOf(
-            "/message_variant_01.txt",
-            "/message_variant_02.txt",
-            "/message_variant_03.txt")
+    internal val validMessages = arrayOf(
+            TestMessage("/message_variant_01.txt", "n5d7of"),
+            TestMessage("/message_variant_02.txt", "kg1vc0"),
+            TestMessage("/message_variant_03.txt", "bg9vy6"))
+}
 
-    internal val validMessages = validMessagesFiles.map { it to resourceText(it) }
+data class TestMessage(
+        val file: String, val linkId: String?) {
+
+    val message = resourceText(file)
 }

@@ -30,8 +30,13 @@ dependencies {
     implementation "com.android.support:appcompat-v7:${libVersion.android.support.appCompat}"
     implementation "com.android.support.constraint:constraint-layout:${libVersion.android.support.constraint}"
 
-    testCompileOnly junit5EmbeddedRuntime()
-    testImplementation junit5()
+    //Dagger 2 dependencies
+    implementation "com.google.dagger:dagger:${libVersion.google.dagger}"
+    kapt "com.google.dagger:dagger-compiler:${libVersion.google.dagger}"
+    compileOnly 'org.glassfish:javax.annotation:10.0-b28'
+
+    testCompileOnly junit5.unitTestsRuntime()
+    testImplementation junit5.unitTests()
     testImplementation "com.google.truth:truth:${libVersion.test.truth}"
     testImplementation "org.jetbrains.kotlin:kotlin-test-junit:${libVersion.kotlin}"
 

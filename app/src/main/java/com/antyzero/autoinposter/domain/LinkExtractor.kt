@@ -13,7 +13,7 @@ interface LinkExtractor {
         override fun hasActivationLink(message: String): Boolean = matchInput(message) != null
 
         override fun linkId(message: String): String? {
-            return matchInput(message)?.value
+            return matchInput(message)?.groupValues?.get(1)
         }
 
         private fun matchInput(text: String) = LINK_REGEXP.find(text)

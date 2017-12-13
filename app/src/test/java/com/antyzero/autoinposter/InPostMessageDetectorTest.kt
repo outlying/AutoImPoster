@@ -15,7 +15,7 @@ class InPostMessageDetectorTest {
     init {
         @Suppress("UNUSED_VARIABLE")
         val result = TestData.validMessages
-                .map { it.second.toLowerCase() }
+                .map { it.message.toLowerCase() }
                 .map { it.split(" ") }
                 .map { it.toSet() }
                 .reduce { acc, set -> acc.intersect(set) }
@@ -26,8 +26,8 @@ class InPostMessageDetectorTest {
     @TestFactory
     internal fun areAllKeywordAreFound(): Iterator<DynamicTest> {
         return TestData.validMessages.map {
-            dynamicTest("Testing message ${it.first}") {
-                assertThat(inPostMessageDetector.containKeywords(it.second)).isEqualTo(1f)
+            dynamicTest("Testing message ${it.file}") {
+                assertThat(inPostMessageDetector.containKeywords(it.message)).isEqualTo(1f)
             }
         }.iterator()
     }

@@ -1,4 +1,4 @@
-package com.antyzero.autoinposter
+package com.antyzero.autoinposter.receiver
 
 import android.content.BroadcastReceiver
 import android.content.Context
