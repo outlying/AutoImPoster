@@ -45,20 +45,20 @@ class SmsReceiver : BroadcastReceiver() {
                         val linkId = linkExtractor.linkId(inPostMessage.text)
                         if (linkId != null) {
 
-                            Thread {
-
-                                inPostCalls.keepOriginalDestination(linkId)
-                                        .map { it.body()!!.string() }
-                                        .subscribeOn(Schedulers.io())
-                                        .observeOn(AndroidSchedulers.mainThread())
-                                        .subscribe({
-                                            println(it)
-                                        }, {
-                                            println(it)
-                                            // TODO log error
-                                        })
-
-                            }.start()
+                            inPostCalls.keepOriginalDestination(linkId)
+                                    .map {
+                                        val body = it.body() ?: throw IllegalStateException("Cannot access response body")
+                                        body.string()
+                                    }
+                                    .subscribeOn(Schedulers.io())
+                                    .observeOn(AndroidSchedulers.mainThread())
+                                    .subscribe({
+                                        // TODO check if response is correct
+                                    }, {
+                                        it.toString()
+                                        println(it)
+                                        // TODO log error
+                                    })
                         }
                         // But what if there is no link
                     }

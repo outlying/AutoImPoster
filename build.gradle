@@ -61,6 +61,7 @@ buildscript {
                         kluent  : '1.30',
                         truth   : '0.37'
                 ],
+                timber       : '4.6.0',
                 threeten     : '1.3.6',
                 versionPlugin: '0.17.0'
         ]
