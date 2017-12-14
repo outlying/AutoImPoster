@@ -69,9 +69,19 @@ class SmsReceiver : BroadcastReceiver() {
                                     .observeOn(AndroidSchedulers.mainThread())
                                     .subscribe({
                                         logger.i(TAG, "Request success")
-                                        // TODO check http response
+                                        if (isResponseValid(it)) {
+                                            logger.w(TAG, "Link might be not valid anymore")
+                                            /*
+                                            TODO this is risky situation, should be reported
+                                            in general it might indicate that url format is different
+                                            or more actions are required
+                                             */
+                                        } else {
+                                            logger.i(TAG, "Total success, package will be delivered to original destination")
+                                        }
                                     }, {
                                         logger.w(TAG, "Request to keep original destination failed")
+                                        // TODO it might be good idea to send this again
                                     })
                         } else {
                             logger.i(TAG, "Message is not a valid one")
@@ -85,20 +95,23 @@ class SmsReceiver : BroadcastReceiver() {
         }
     }
 
-    /**
-     * Creates proper SmsMessage from byte input
-     */
-    private fun createFromPdu(bytes: ByteArray, bundle: Bundle) =
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                val format = bundle.getString("format")
-                SmsMessage.createFromPdu(bytes, format)
-            } else {
-                @Suppress("DEPRECATION")
-                SmsMessage.createFromPdu(bytes)
-            }
-
     companion object {
 
         private const val KEY_PDUS = "pdus"
+
+        /**
+         * Creates proper SmsMessage from byte input
+         */
+        private fun createFromPdu(bytes: ByteArray, bundle: Bundle) =
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    val format = bundle.getString("format")
+                    SmsMessage.createFromPdu(bytes, format)
+                } else {
+                    @Suppress("DEPRECATION")
+                    SmsMessage.createFromPdu(bytes)
+                }
+
+        private fun isResponseValid(message: String) =
+                "niepoprawny link".toRegex().find(message.toLowerCase()) != null
     }
 }
