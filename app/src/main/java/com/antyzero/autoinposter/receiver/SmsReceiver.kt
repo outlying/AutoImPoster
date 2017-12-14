@@ -8,7 +8,9 @@ import android.os.Bundle
 import android.telephony.SmsMessage
 import com.antyzero.autoinposter.domain.InPostMessageDetector
 import com.antyzero.autoinposter.domain.LinkExtractor
+import com.antyzero.autoinposter.dsl.TAG
 import com.antyzero.autoinposter.dsl.applicationComponent
+import com.antyzero.autoinposter.logger.Logger
 import com.antyzero.autoinposter.network.InPostCalls
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -23,6 +25,8 @@ class SmsReceiver : BroadcastReceiver() {
     lateinit var inPostMessageDetector: InPostMessageDetector
     @Inject
     lateinit var inPostCalls: InPostCalls
+    @Inject
+    lateinit var logger: Logger
 
     override fun onReceive(context: Context, intent: Intent) {
 
@@ -33,18 +37,29 @@ class SmsReceiver : BroadcastReceiver() {
             if (bundle != null) {
                 val pdusObj = bundle.get(KEY_PDUS) as Array<*>
 
-                for (i in pdusObj.indices) {
+                val messages = mutableListOf<InPostMessageDetector.Message>()
 
+                for (i in pdusObj.indices) {
                     val smsMessage = createFromPdu(pdusObj[i] as ByteArray, bundle)
                     val phoneNumber = smsMessage.displayOriginatingAddress
                     val message = smsMessage.displayMessageBody
-                    val inPostMessage = InPostMessageDetector.Message(phoneNumber, message)
+                    messages.add(InPostMessageDetector.Message(phoneNumber, message))
+                }
 
-                    // TODO what if message is going to be changed
-                    if (inPostMessageDetector.isInPostMessage(inPostMessage)) {
-                        val linkId = linkExtractor.linkId(inPostMessage.text)
+                val mergedMessages = messages
+                        .groupBy { it.phoneNumber }
+                        .map {
+                            val phone = it.key
+                            val message = it.value.joinToString(separator = "") { it.text }
+                            InPostMessageDetector.Message(phone, message)
+                        }
+
+                for (message in mergedMessages) {
+                    if (inPostMessageDetector.isInPostMessage(message)) {
+                        logger.i(TAG, "InPost message detected")
+                        val linkId = linkExtractor.linkId(message.text)
                         if (linkId != null) {
-
+                            logger.i(TAG, "Message contain valid link, ID found")
                             inPostCalls.keepOriginalDestination(linkId)
                                     .map {
                                         val body = it.body() ?: throw IllegalStateException("Cannot access response body")
@@ -53,14 +68,14 @@ class SmsReceiver : BroadcastReceiver() {
                                     .subscribeOn(Schedulers.io())
                                     .observeOn(AndroidSchedulers.mainThread())
                                     .subscribe({
-                                        // TODO check if response is correct
+                                        logger.i(TAG, "Request success")
+                                        // TODO check http response
                                     }, {
-                                        it.toString()
-                                        println(it)
-                                        // TODO log error
+                                        logger.w(TAG, "Request to keep original destination failed")
                                     })
+                        } else {
+                            logger.i(TAG, "Message is not a valid one")
                         }
-                        // But what if there is no link
                     }
                 }
             }

@@ -15,7 +15,7 @@ class OkHttpInPostCalls(private val okHttpClient: OkHttpClient) : InPostCalls {
         }
     }
 
-    companion object {
+    private companion object {
 
         private fun getNewUrl(id: String, action: Action? = null) = BASE_URL.newBuilder()
                 .addQueryParameter("t", id).apply {

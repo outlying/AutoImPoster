@@ -11,5 +11,8 @@ fun Context.showToast(message: String, duration: Int = Toast.LENGTH_SHORT) {
 
 fun <T> T?.toList() = listOf(this)
 
+inline val Any.TAG
+    get() = this.javaClass.simpleName
+
 inline val Context.applicationComponent
     get() = (this.applicationContext as AutoInPosterApplication).applicationComponent
