@@ -1,4 +1,4 @@
-package com.antyzero.autoinposter.logger
+package com.antyzero.autoinposter.domain.logger
 
 interface Logger {
 

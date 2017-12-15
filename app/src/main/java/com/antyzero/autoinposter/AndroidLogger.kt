@@ -1,6 +1,7 @@
-package com.antyzero.autoinposter.logger
+package com.antyzero.autoinposter
 
 import android.util.Log
+import com.antyzero.autoinposter.domain.logger.Logger
 
 
 object AndroidLogger : Logger {

@@ -9,8 +9,7 @@ dependencies {
 
     api "io.reactivex.rxjava2:rxjava:${libVersion.rx.java}"
     api "org.jetbrains.kotlin:kotlin-stdlib-jre7:${libVersion.kotlin}"
-
-    implementation "com.squareup.okhttp3:okhttp:${libVersion.squareup.okhttp3}"
+    api "com.squareup.okhttp3:okhttp:${libVersion.squareup.okhttp3}"
 
     testImplementation "com.google.truth:truth:${libVersion.test.truth}"
     testImplementation "org.jetbrains.kotlin:kotlin-test-junit:${libVersion.kotlin}"
