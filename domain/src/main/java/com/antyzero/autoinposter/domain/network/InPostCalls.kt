@@ -1,4 +1,4 @@
-package com.antyzero.autoinposter.network
+package com.antyzero.autoinposter.domain.network
 
 import io.reactivex.Flowable
 import okhttp3.Response

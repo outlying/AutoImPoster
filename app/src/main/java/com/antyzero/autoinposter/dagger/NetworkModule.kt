@@ -1,7 +1,7 @@
 package com.antyzero.autoinposter.dagger
 
-import com.antyzero.autoinposter.network.InPostCalls
-import com.antyzero.autoinposter.network.OkHttpInPostCalls
+import com.antyzero.autoinposter.domain.network.InPostCalls
+import com.antyzero.autoinposter.domain.network.OkHttpInPostCalls
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient

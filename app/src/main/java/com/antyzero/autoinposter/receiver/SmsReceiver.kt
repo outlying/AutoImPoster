@@ -12,7 +12,7 @@ import com.antyzero.autoinposter.domain.data.Message
 import com.antyzero.autoinposter.dsl.TAG
 import com.antyzero.autoinposter.dsl.applicationComponent
 import com.antyzero.autoinposter.logger.Logger
-import com.antyzero.autoinposter.network.InPostCalls
+import com.antyzero.autoinposter.domain.network.InPostCalls
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
