@@ -1,4 +1,4 @@
-package com.antyzero.autoinposter
+package com.antyzero.autoinposter.domain
 
 
 object TestData {

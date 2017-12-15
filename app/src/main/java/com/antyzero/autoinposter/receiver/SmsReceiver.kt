@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.telephony.SmsMessage
 import com.antyzero.autoinposter.domain.InPostMessageDetector
 import com.antyzero.autoinposter.domain.LinkExtractor
+import com.antyzero.autoinposter.domain.data.Message
 import com.antyzero.autoinposter.dsl.TAG
 import com.antyzero.autoinposter.dsl.applicationComponent
 import com.antyzero.autoinposter.logger.Logger
@@ -37,13 +38,13 @@ class SmsReceiver : BroadcastReceiver() {
             if (bundle != null) {
                 val pdusObj = bundle.get(KEY_PDUS) as Array<*>
 
-                val messages = mutableListOf<InPostMessageDetector.Message>()
+                val messages = mutableListOf<Message>()
 
                 for (i in pdusObj.indices) {
                     val smsMessage = createFromPdu(pdusObj[i] as ByteArray, bundle)
                     val phoneNumber = smsMessage.displayOriginatingAddress
                     val message = smsMessage.displayMessageBody
-                    messages.add(InPostMessageDetector.Message(phoneNumber, message))
+                    messages.add(Message(phoneNumber, message))
                 }
 
                 val mergedMessages = messages
@@ -51,7 +52,7 @@ class SmsReceiver : BroadcastReceiver() {
                         .map {
                             val phone = it.key
                             val message = it.value.joinToString(separator = "") { it.text }
-                            InPostMessageDetector.Message(phone, message)
+                            Message(phone, message)
                         }
 
                 for (message in mergedMessages) {

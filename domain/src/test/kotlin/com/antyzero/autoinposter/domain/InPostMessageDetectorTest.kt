@@ -1,6 +1,6 @@
-package com.antyzero.autoinposter
+package com.antyzero.autoinposter.domain
 
-import com.antyzero.autoinposter.domain.InPostMessageDetector
+import com.antyzero.autoinposter.domain.data.Message
 import com.google.common.truth.Truth.assertThat
 import org.junit.jupiter.api.DynamicTest
 import org.junit.jupiter.api.DynamicTest.dynamicTest
@@ -34,7 +34,7 @@ class InPostMessageDetectorTest {
 
     @Test
     internal fun checkWholeMessage() {
-        val message = InPostMessageDetector.Message(
+        val message = Message(
                 "InPost",
                 resourceText("/message_variant_01.txt"))
 

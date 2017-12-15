@@ -26,23 +26,20 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:${libVersion.kotlin}"
+    implementation project(':domain')
+
     implementation "com.android.support:appcompat-v7:${libVersion.android.support.appCompat}"
     implementation "com.android.support.constraint:constraint-layout:${libVersion.android.support.constraint}"
     implementation "com.squareup.okhttp3:okhttp:${libVersion.squareup.okhttp3}"
     implementation "io.reactivex.rxjava2:rxandroid:${libVersion.rx.android}"
-    implementation "io.reactivex.rxjava2:rxjava:${libVersion.rx.java}"
 
     //Dagger 2 dependencies
     implementation "com.google.dagger:dagger:${libVersion.google.dagger}"
     kapt "com.google.dagger:dagger-compiler:${libVersion.google.dagger}"
     compileOnly 'org.glassfish:javax.annotation:10.0-b28'
 
-    testCompileOnly junit5.unitTestsRuntime()
     testImplementation junit5.unitTests()
-    testImplementation "com.google.truth:truth:${libVersion.test.truth}"
-    testImplementation "org.jetbrains.kotlin:kotlin-test-junit:${libVersion.kotlin}"
+    testCompileOnly junit5.unitTestsRuntime()
 
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'

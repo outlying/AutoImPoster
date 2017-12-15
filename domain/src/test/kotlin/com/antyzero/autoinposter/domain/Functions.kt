@@ -1,4 +1,4 @@
-package com.antyzero.autoinposter
+package com.antyzero.autoinposter.domain
 
 
 fun resourceText(file: String) = String::class.java.getResource(file).readText()

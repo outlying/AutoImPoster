@@ -1,6 +1,5 @@
-package com.antyzero.autoinposter
+package com.antyzero.autoinposter.domain
 
-import com.antyzero.autoinposter.domain.LinkExtractor
 import com.google.common.truth.Truth.assertThat
 import org.junit.jupiter.api.DynamicTest
 import org.junit.jupiter.api.DynamicTest.dynamicTest
