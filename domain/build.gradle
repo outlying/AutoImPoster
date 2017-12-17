@@ -1,12 +1,22 @@
-apply plugin: 'java-library'
+apply plugin: 'java' // apply plugin: 'java-library'
 apply plugin: 'kotlin'
 apply plugin: 'org.junit.platform.gradle.plugin'
 
-sourceCompatibility = "1.7"
-targetCompatibility = "1.7"
-
 dependencies {
 
+    compile "io.reactivex.rxjava2:rxjava:${libVersion.rx.java}"
+    compile "org.jetbrains.kotlin:kotlin-stdlib:${libVersion.kotlin}"
+    compile "com.squareup.okhttp3:okhttp:${libVersion.squareup.okhttp3}"
+
+    testCompile "com.google.truth:truth:${libVersion.test.truth}"
+    testCompile "org.jetbrains.kotlin:kotlin-test-junit:${libVersion.kotlin}"
+
+    testCompile "org.junit.jupiter:junit-jupiter-api:${libVersion.test.junit5.main}"
+    testRuntime "org.junit.jupiter:junit-jupiter-engine:${libVersion.test.junit5.main}"
+    testRuntime "org.junit.platform:junit-platform-runner:${libVersion.test.junit5.gradle}"
+    testRuntime "org.junit.platform:junit-platform-launcher:${libVersion.test.junit5.gradle}"
+
+    /*
     api "io.reactivex.rxjava2:rxjava:${libVersion.rx.java}"
     api "org.jetbrains.kotlin:kotlin-stdlib-jre7:${libVersion.kotlin}"
     api "com.squareup.okhttp3:okhttp:${libVersion.squareup.okhttp3}"
@@ -16,4 +26,21 @@ dependencies {
 
     testImplementation "org.junit.jupiter:junit-jupiter-api:${libVersion.test.junit5.main}"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${libVersion.test.junit5.main}"
+    testRuntimeOnly "org.junit.platform:junit-platform-runner:${libVersion.test.junit5.gradle}"
+    testRuntimeOnly "org.junit.platform:junit-platform-launcher:${libVersion.test.junit5.gradle}"
+    */
+}
+
+junitPlatform {
+    filters {
+        engines {
+            include 'junit-jupiter'
+        }
+    }
+}
+
+//noinspection GroovyAssignabilityCheck
+sourceSets {
+    main.java.srcDirs += 'src/main/kotlin'
+    test.java.srcDirs += 'src/test/kotlin'
 }

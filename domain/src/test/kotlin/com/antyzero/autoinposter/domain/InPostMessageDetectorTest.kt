@@ -13,19 +13,21 @@ class InPostMessageDetectorTest {
     private val inPostMessageDetector = InPostMessageDetector()
 
     init {
+        /*
         @Suppress("UNUSED_VARIABLE")
-        val result = TestData.validMessages
+        val result = TestMessages().validMessages
                 .map { it.message.toLowerCase() }
                 .map { it.split(" ") }
                 .map { it.toSet() }
                 .reduce { acc, set -> acc.intersect(set) }
+                */
 
         // throw IllegalStateException("$result") // for words collecting
     }
 
-    @TestFactory
+    //@TestFactory
     internal fun areAllKeywordAreFound(): Iterator<DynamicTest> {
-        return TestData.validMessages.map {
+        return TestMessages().validMessages.map {
             dynamicTest("Testing message ${it.file}") {
                 assertThat(inPostMessageDetector.containKeywords(it.message)).isEqualTo(1f)
             }
@@ -36,7 +38,7 @@ class InPostMessageDetectorTest {
     internal fun checkWholeMessage() {
         val message = Message(
                 "InPost",
-                resourceText("/message_variant_01.txt"))
+                TestMessages().resourceText("/message_variant_01.txt"))
 
         val result = inPostMessageDetector.isInPostMessage(message)
 
