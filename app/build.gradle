@@ -3,6 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'de.mannodermaus.android-junit5'
+apply plugin: 'io.fabric'
 
 android {
 
@@ -31,6 +32,9 @@ dependencies {
     implementation "com.android.support:appcompat-v7:${libVersion.android.support.appCompat}"
     implementation "com.android.support.constraint:constraint-layout:${libVersion.android.support.constraint}"
     implementation "io.reactivex.rxjava2:rxandroid:${libVersion.rx.android}"
+    implementation("com.crashlytics.sdk.android:crashlytics:${libVersion.crashlytics}@aar") {
+        transitive = true;
+    }
 
     //Dagger 2 dependencies
     implementation "com.google.dagger:dagger:${libVersion.google.dagger}"
