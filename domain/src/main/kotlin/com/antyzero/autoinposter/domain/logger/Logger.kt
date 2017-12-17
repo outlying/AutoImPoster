@@ -2,9 +2,11 @@ package com.antyzero.autoinposter.domain.logger
 
 interface Logger {
 
-    fun i(tag: String, message: String, throwable: Throwable? = null)
+    fun v(tag: String, message: String, throwable: Throwable? = null)
 
     fun d(tag: String, message: String, throwable: Throwable? = null)
+
+    fun i(tag: String, message: String, throwable: Throwable? = null)
 
     fun w(tag: String, message: String, throwable: Throwable? = null)
 
@@ -18,12 +20,16 @@ interface Logger {
 
         fun add(logger: Logger) = loggers.add(logger)
 
-        override fun i(tag: String, message: String, throwable: Throwable?) {
-            loggers.forEach { it.i(tag, message, throwable) }
+        override fun v(tag: String, message: String, throwable: Throwable?) {
+            loggers.forEach { it.v(tag, message, throwable) }
         }
 
         override fun d(tag: String, message: String, throwable: Throwable?) {
             loggers.forEach { it.d(tag, message, throwable) }
+        }
+
+        override fun i(tag: String, message: String, throwable: Throwable?) {
+            loggers.forEach { it.i(tag, message, throwable) }
         }
 
         override fun w(tag: String, message: String, throwable: Throwable?) {

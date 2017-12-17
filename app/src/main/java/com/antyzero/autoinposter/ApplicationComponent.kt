@@ -1,9 +1,6 @@
 package com.antyzero.autoinposter
 
-import com.antyzero.autoinposter.dagger.AndroidModule
-import com.antyzero.autoinposter.dagger.DomainModule
-import com.antyzero.autoinposter.dagger.LoggingModule
-import com.antyzero.autoinposter.dagger.NetworkModule
+import com.antyzero.autoinposter.dagger.*
 import com.antyzero.autoinposter.receiver.SmsReceiver
 import dagger.Component
 import javax.inject.Singleton
@@ -14,6 +11,7 @@ import javax.inject.Singleton
     DomainModule::class,
     AndroidModule::class,
     NetworkModule::class,
+    FabricModule::class,
     LoggingModule::class])
 interface ApplicationComponent {
 

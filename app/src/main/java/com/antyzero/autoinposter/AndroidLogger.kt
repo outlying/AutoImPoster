@@ -6,6 +6,10 @@ import com.antyzero.autoinposter.domain.logger.Logger
 
 object AndroidLogger : Logger {
 
+    override fun v(tag: String, message: String, throwable: Throwable?) {
+        Log.v(tag, message, throwable)
+    }
+
     override fun i(tag: String, message: String, throwable: Throwable?) {
         Log.i(tag, message, throwable)
     }

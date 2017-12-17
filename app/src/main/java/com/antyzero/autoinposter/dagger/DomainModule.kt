@@ -4,6 +4,7 @@ import com.antyzero.autoinposter.BuildConfig
 import com.antyzero.autoinposter.domain.ImPoster
 import com.antyzero.autoinposter.domain.InPostMessageDetector
 import com.antyzero.autoinposter.domain.LinkExtractor
+import com.antyzero.autoinposter.domain.issue.IssueReporter
 import com.antyzero.autoinposter.domain.network.InPostCalls
 import dagger.Module
 import dagger.Provides
@@ -33,11 +34,13 @@ class DomainModule {
     fun provideImPoster(
             inPostMessageDetector: InPostMessageDetector,
             linkExtractor: LinkExtractor,
+            issueReporter: IssueReporter,
             inPostCalls: InPostCalls): ImPoster {
         return ImPoster(
                 inPostMessageDetector = inPostMessageDetector,
                 inPostCalls = inPostCalls,
                 linkExtractor = linkExtractor,
+                issueReporter = issueReporter,
                 receivingSchedulers = AndroidSchedulers.mainThread())
     }
 
