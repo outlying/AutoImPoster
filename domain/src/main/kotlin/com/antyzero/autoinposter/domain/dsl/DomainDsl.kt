@@ -1,4 +1,4 @@
-package com.antyzero.autoinposter.domain
+package com.antyzero.autoinposter.domain.dsl
 
 
 @Suppress("PropertyName")

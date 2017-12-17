@@ -7,7 +7,7 @@ import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.FragmentActivity
 import android.support.v7.app.AppCompatDialogFragment
-import com.antyzero.autoinposter.domain.TAG
+import com.antyzero.autoinposter.domain.dsl.TAG
 
 
 class AgreementDialog : AppCompatDialogFragment() {
@@ -25,6 +25,7 @@ class AgreementDialog : AppCompatDialogFragment() {
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        isCancelable = false
         return AlertDialog.Builder(activity)
                 .setPositiveButton("I agree", { dialog, _ ->
                     agreementResult.agreedToUserAgreement()

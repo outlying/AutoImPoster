@@ -1,6 +1,7 @@
 package com.antyzero.autoinposter.domain
 
 import com.antyzero.autoinposter.domain.data.Message
+import com.antyzero.autoinposter.domain.dsl.TAG
 import com.antyzero.autoinposter.domain.issue.IssueReporter
 import com.antyzero.autoinposter.domain.logger.Logger
 import com.antyzero.autoinposter.domain.network.InPostCalls
@@ -27,7 +28,12 @@ class ImPoster(
 
                     inPostCalls.keepOriginalDestination(linkId)
                             .map {
-                                val body = it.body() ?: throw IllegalStateException("Cannot access response body")
+                                val body = it.body()
+                                if (body == null) {
+                                    val throwable = IllegalStateException("Cannot access response body")
+                                    issueReporter.report(throwable)
+                                    throw throwable
+                                }
                                 body.string()
                             }
                             .subscribeOn(Schedulers.io())
@@ -35,17 +41,16 @@ class ImPoster(
                             .subscribe({
                                 logger.i(TAG, "Request success")
                                 if (isResponseValid(it)) {
-                                    logger.w(TAG, "Link might be not valid anymore")
                                     issueReporter.report("Link might be not valid anymore")
                                 } else {
                                     logger.i(TAG, "Total success, package will be delivered to original destination")
                                 }
                             }, {
                                 logger.w(TAG, "Request to keep original destination failed")
-                                // TODO it might be good idea to send this again
+                                // TODO it might be good idea to send this again or report
                             })
                 } else {
-                    logger.i(TAG, "Message is not a valid one")
+                    logger.i(TAG, "Message does not belong to InPost")
                 }
             }
         }

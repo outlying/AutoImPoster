@@ -7,7 +7,7 @@ import android.os.Build
 import android.os.Bundle
 import android.telephony.SmsMessage
 import com.antyzero.autoinposter.domain.ImPoster
-import com.antyzero.autoinposter.domain.TAG
+import com.antyzero.autoinposter.domain.dsl.TAG
 import com.antyzero.autoinposter.domain.data.Message
 import com.antyzero.autoinposter.domain.logger.Logger
 import com.antyzero.autoinposter.dsl.applicationComponent

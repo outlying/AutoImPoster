@@ -5,7 +5,7 @@ import android.support.v4.app.DialogFragment
 import android.support.v4.app.FragmentManager
 import android.widget.Toast
 import com.antyzero.autoinposter.AutoInPosterApplication
-import com.antyzero.autoinposter.domain.TAG
+import com.antyzero.autoinposter.domain.dsl.TAG
 
 
 fun Context.showMessage(message: String, duration: Int = Toast.LENGTH_SHORT) {

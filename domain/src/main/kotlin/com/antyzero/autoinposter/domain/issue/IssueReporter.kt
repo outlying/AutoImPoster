@@ -8,4 +8,8 @@ interface IssueReporter {
     fun report(message: String) {
         report(IllegalStateException(message), message)
     }
+
+    fun report(throwable: Throwable) {
+        report(throwable, throwable.message ?: "")
+    }
 }
