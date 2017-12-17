@@ -1,6 +1,7 @@
 package com.antyzero.autoinposter.domain
 
 import com.antyzero.autoinposter.domain.data.Message
+import com.antyzero.autoinposter.domain.issue.IssueReporter
 import com.antyzero.autoinposter.domain.logger.Logger
 import com.antyzero.autoinposter.domain.network.InPostCalls
 import io.reactivex.Scheduler
@@ -8,11 +9,12 @@ import io.reactivex.schedulers.Schedulers
 
 
 class ImPoster(
-        val inPostMessageDetector: InPostMessageDetector,
-        val inPostCalls: InPostCalls,
-        val receivingSchedulers: Scheduler,
-        val linkExtractor: LinkExtractor = LinkExtractor,
-        private val logger: Logger = Logger) {
+        private val inPostMessageDetector: InPostMessageDetector,
+        private val inPostCalls: InPostCalls,
+        private val receivingSchedulers: Scheduler,
+        private val linkExtractor: LinkExtractor = LinkExtractor,
+        private val logger: Logger = Logger,
+        private val issueReporter: IssueReporter) {
 
     fun verifyMessages(messages: Collection<Message>) {
 
@@ -34,11 +36,7 @@ class ImPoster(
                                 logger.i(TAG, "Request success")
                                 if (isResponseValid(it)) {
                                     logger.w(TAG, "Link might be not valid anymore")
-                                    /*
-                                    TODO this is risky situation, should be reported
-                                    in general it might indicate that url format is different
-                                    or more actions are required
-                                     */
+                                    issueReporter.report("Link might be not valid anymore")
                                 } else {
                                     logger.i(TAG, "Total success, package will be delivered to original destination")
                                 }
