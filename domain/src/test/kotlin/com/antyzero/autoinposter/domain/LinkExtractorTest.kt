@@ -19,6 +19,7 @@ class LinkExtractorTest {
         }.iterator()
     }
 
+    @TestFactory
     internal fun findId(): Iterator<DynamicTest> {
         return TestMessages.validMessages.map {
             dynamicTest("Looking for ID ${it.linkId} in ${it.file}") {

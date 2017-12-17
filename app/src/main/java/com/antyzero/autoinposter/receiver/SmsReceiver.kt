@@ -6,31 +6,22 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.telephony.SmsMessage
-import com.antyzero.autoinposter.domain.InPostMessageDetector
-import com.antyzero.autoinposter.domain.LinkExtractor
+import com.antyzero.autoinposter.domain.ImPoster
+import com.antyzero.autoinposter.domain.TAG
 import com.antyzero.autoinposter.domain.data.Message
-import com.antyzero.autoinposter.dsl.TAG
-import com.antyzero.autoinposter.dsl.applicationComponent
 import com.antyzero.autoinposter.domain.logger.Logger
-import com.antyzero.autoinposter.domain.network.InPostCalls
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
+import com.antyzero.autoinposter.dsl.applicationComponent
 import javax.inject.Inject
 
 
 class SmsReceiver : BroadcastReceiver() {
 
     @Inject
-    lateinit var linkExtractor: LinkExtractor
-    @Inject
-    lateinit var inPostMessageDetector: InPostMessageDetector
-    @Inject
-    lateinit var inPostCalls: InPostCalls
+    lateinit var imPoster: ImPoster
     @Inject
     lateinit var logger: Logger
 
     override fun onReceive(context: Context, intent: Intent) {
-
         context.applicationComponent.inject(this)
 
         val bundle = intent.extras
@@ -55,44 +46,12 @@ class SmsReceiver : BroadcastReceiver() {
                             Message(phone, message)
                         }
 
-                for (message in mergedMessages) {
-                    if (inPostMessageDetector.isInPostMessage(message)) {
-                        logger.i(TAG, "InPost message detected")
-                        val linkId = linkExtractor.linkId(message.text)
-                        if (linkId != null) {
-                            logger.i(TAG, "Message contain valid link, ID found")
-                            inPostCalls.keepOriginalDestination(linkId)
-                                    .map {
-                                        val body = it.body() ?: throw IllegalStateException("Cannot access response body")
-                                        body.string()
-                                    }
-                                    .subscribeOn(Schedulers.io())
-                                    .observeOn(AndroidSchedulers.mainThread())
-                                    .subscribe({
-                                        logger.i(TAG, "Request success")
-                                        if (isResponseValid(it)) {
-                                            logger.w(TAG, "Link might be not valid anymore")
-                                            /*
-                                            TODO this is risky situation, should be reported
-                                            in general it might indicate that url format is different
-                                            or more actions are required
-                                             */
-                                        } else {
-                                            logger.i(TAG, "Total success, package will be delivered to original destination")
-                                        }
-                                    }, {
-                                        logger.w(TAG, "Request to keep original destination failed")
-                                        // TODO it might be good idea to send this again
-                                    })
-                        } else {
-                            logger.i(TAG, "Message is not a valid one")
-                        }
-                    }
-                }
+                imPoster.verifyMessages(mergedMessages)
             }
 
         } catch (e: Exception) {
             e.printStackTrace()
+            logger.e(TAG, "Fatal error during message processing", e)
         }
     }
 
@@ -111,8 +70,5 @@ class SmsReceiver : BroadcastReceiver() {
                     @Suppress("DEPRECATION")
                     SmsMessage.createFromPdu(bytes)
                 }
-
-        private fun isResponseValid(message: String) =
-                "niepoprawny link".toRegex().find(message.toLowerCase()) != null
     }
 }

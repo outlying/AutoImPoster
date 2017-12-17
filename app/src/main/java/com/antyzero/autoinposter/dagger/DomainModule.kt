@@ -7,6 +7,7 @@ import com.antyzero.autoinposter.domain.LinkExtractor
 import com.antyzero.autoinposter.domain.network.InPostCalls
 import dagger.Module
 import dagger.Provides
+import io.reactivex.android.schedulers.AndroidSchedulers
 import javax.inject.Singleton
 
 @Module
@@ -30,10 +31,14 @@ class DomainModule {
     @Provides
     @Singleton
     fun provideImPoster(
-            inPostMessageDetector:InPostMessageDetector,
+            inPostMessageDetector: InPostMessageDetector,
             linkExtractor: LinkExtractor,
-            inPostCalls: InPostCalls):ImPoster {
-        return ImPoster(inPostMessageDetector, linkExtractor, inPostCalls)
+            inPostCalls: InPostCalls): ImPoster {
+        return ImPoster(
+                inPostMessageDetector = inPostMessageDetector,
+                inPostCalls = inPostCalls,
+                linkExtractor = linkExtractor,
+                receivingSchedulers = AndroidSchedulers.mainThread())
     }
 
 }
