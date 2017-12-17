@@ -10,6 +10,7 @@ dependencies {
 
     testCompile "com.google.truth:truth:${libVersion.test.truth}"
     testCompile "org.jetbrains.kotlin:kotlin-test-junit:${libVersion.kotlin}"
+    testCompile "org.amshove.kluent:kluent:${libVersion.test.kluent}"
 
     testCompile "org.junit.jupiter:junit-jupiter-api:${libVersion.test.junit5.main}"
     testRuntime "org.junit.jupiter:junit-jupiter-engine:${libVersion.test.junit5.main}"

@@ -74,10 +74,10 @@ buildscript {
 
     dependencies {
         classpath "com.android.tools.build:gradle:${libVersion.android.gradle}"
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${libVersion.kotlin}"
-        classpath "de.mannodermaus.gradle.plugins:android-junit5:${libVersion.test.junit5.androidPlugin}"
         classpath "com.github.ben-manes:gradle-versions-plugin:${libVersion.versionPlugin}"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${libVersion.kotlin}"
         classpath "org.junit.platform:junit-platform-gradle-plugin:${libVersion.test.junit5.gradle}"
+        classpath "de.mannodermaus.gradle.plugins:android-junit5:${libVersion.test.junit5.androidPlugin}"
     }
 }
 

@@ -9,20 +9,18 @@ import org.junit.jupiter.api.TestFactory
 class LinkExtractorTest {
 
     private val linkExtractor: LinkExtractor = LinkExtractor
-    private val testMessages: TestMessages = TestMessages()
 
-    // @TestFactory
+    @TestFactory
     internal fun findLink(): Iterator<DynamicTest> {
-        return testMessages.validMessages.map {
+        return TestMessages.validMessages.map {
             dynamicTest("Looking for link in ${it.file}") {
                 assertThat(linkExtractor.hasActivationLink(it.message)).isTrue()
             }
         }.iterator()
     }
 
-    // @TestFactory
     internal fun findId(): Iterator<DynamicTest> {
-        return testMessages.validMessages.map {
+        return TestMessages.validMessages.map {
             dynamicTest("Looking for ID ${it.linkId} in ${it.file}") {
                 assertThat(linkExtractor.linkId(it.message)).isEqualTo(it.linkId)
             }

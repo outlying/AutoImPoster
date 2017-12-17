@@ -1,7 +1,7 @@
 package com.antyzero.autoinposter.domain
 
 
-class TestMessages {
+object TestMessages {
 
     val validMessages: List<TestMessage> by lazy {
 
