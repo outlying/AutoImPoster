@@ -7,7 +7,7 @@ import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.FragmentActivity
 import android.support.v7.app.AppCompatDialogFragment
-import com.antyzero.autoinposter.dsl.TAG
+import com.antyzero.autoinposter.domain.TAG
 
 
 class AgreementDialog : AppCompatDialogFragment() {
