@@ -28,6 +28,9 @@ class OkHttpInPostCalls(private val okHttpClient: OkHttpClient) : InPostCalls {
         private val BASE_URL: HttpUrl = HttpUrl.parse("https://kurier.inpost.pl/rp.aspx")!!
     }
 
+    /**
+     * Possible actions
+     */
     private enum class Action {
 
         ADD;
